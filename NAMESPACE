@@ -1,0 +1,8 @@
+export(ltsk)
+export(lk)
+export(dnb)
+import(mvtnorm)
+import(fields)
+import(gstat)
+import(snow)
+useDynLib(ltsk,lk_main)
