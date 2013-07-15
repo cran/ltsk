@@ -5,6 +5,13 @@ function(query, obs,th)
   ## obs   : coordinates and time stamps of observed points
   ## th    : space and time thresholds
   ## value : coordinates and time stamps of potential neighbors
+  if (class(query)=="data.frame"){
+	query <- as.matrix(query)
+	query <- as.vector(query)
+  }
+  if (class(obs)=="data.frame"){
+  	obs <- as.matrix(obs)
+  }
   tvec <- abs( query[3] - obs[,3] )
   iit <- which( tvec < th[2] )
   loc0 <- matrix( query[1:2], ncol=2)

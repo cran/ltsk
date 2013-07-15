@@ -12,7 +12,7 @@
 
 // #include "stdafx.h"
 #include "cmp_kriging.h"
-#include <fstream>
+//#include <fstream>
 
 
 extern   "C"  
@@ -111,7 +111,7 @@ void CMP_Kriging_By_Space_and_Time(   // calculate kriging by space and time
   double epsilon;
   AvDistTimeSemi** BinCube;
   VariogramParameters	parameters;
-  double krigingbar;
+  //double krigingbar;
 	
 	
   npts = (int)neighbor.size();
@@ -1058,7 +1058,7 @@ void VariogramCalculationBySpaceAndTime(			// calculate variogram by space and t
   double sse_expy;
   double sse_gausy;
   double sse_mtey;
-  double sse;
+  double sse = R_PosInf;
   AvDistTimeSemi* Bin;
 
   // initial the first distance Bins
@@ -1962,7 +1962,7 @@ void Kriging_By_Space(	// calculate kriging by space
   double			TempX1,TempY1,TempX2, TempY2;
   double			distance;
   double			tempAlpha;
-  double			krigingbar;
+  //double			krigingbar;
   double			xmax,xmin,ymax,ymin;
   vector<bool>	sampling;
   double			dist_max,dbar;
@@ -1988,10 +1988,10 @@ void Kriging_By_Space(	// calculate kriging by space
   npts = (int)neighbor.size();
 
   //dout <<"neighbor input" <<endl;
-  for(int i=0; i <npts; i++){
-    int j = neighbor.get_index(i);
+  //for(int i=0; i <npts; i++){
+  //  int j = neighbor.get_index(i);
 	//dout << "x=" << neighbor[j].x_coord<<" y= "<< neighbor[j].y_coord << "distance= " << neighbor[j].distance << endl;
-  }
+  //}
   //if ((queryPt == NULL )||(DistBin <= 3))
   // cout <<  " DistBin " << DistBin << endl;
   if (DistBin <= 3)  
@@ -2042,7 +2042,8 @@ void Kriging_By_Space(	// calculate kriging by space
 	{
 	  if (npts <= MINNEIGHBOR)
 	    {
-	      kvq	= LessNeighborsInSpace;
+	      //Rprintf("cmp_kriging.cpp:2045 Less neighbor in space\n");
+		  kvq	= LessNeighborsInSpace;
 	      kriging	= -99999;
 	      sigma = -99999;
 	    }
@@ -2094,6 +2095,7 @@ void Kriging_By_Space(	// calculate kriging by space
 
 	      if (dbar > 2 * dist_max)
 		{
+		  //Rprintf("cmp_kriging.cpp:2098 Sparse neighborhood.\n");
 		  kriging = -99999;
 		  sigma = -99999;
 		  kvq = LessNeighbors;
@@ -2102,6 +2104,7 @@ void Kriging_By_Space(	// calculate kriging by space
 		{
 		  if (npts > MAXNEIGHBOR) // the neighbors are greater than maxium, randomly select sampling neighbors to reduce calculation
 		    {
+			  //Rprintf("cmp_kriging.cpp:2106 %d too large. Subsampling starts\n",npts);
 			  //dout<<"here 1 npts="<<npts<<endl;
 		      // setup random value enable 
 		      srand((unsigned)time(NULL));
@@ -2141,6 +2144,8 @@ void Kriging_By_Space(	// calculate kriging by space
 			    {
 				  //dout << "xi= "<< xi << "," << " yi=" << yi << " index=" <<j<< endl;
 			      neighborcell[xi][yi].push_back(j);
+			  	  //Rprintf("cmp_kriging.cpp:2147 Insert neighbor %d into cell (%d,%d)\n",j,xi,yi);
+
 			    }					
 			}
 		      // all neighbors are inserted into neighbor cubes
@@ -2195,7 +2200,7 @@ void Kriging_By_Space(	// calculate kriging by space
 					// c 2006 Pearson Ed., Inc. 0-13-142917-5
 					int l = 0;
 					int TempK;
-					for (int k = 0; k < neighborcell[i][j].size(); k++)
+					for (unsigned int k = 0; k < neighborcell[i][j].size(); k++)
 					{
 						l = l + 1;
 						TempR = rand() % (neighborcell[i][j].size() - k) + k;
@@ -2210,6 +2215,7 @@ void Kriging_By_Space(	// calculate kriging by space
 					}
 				}								
 			    }
+				//Rprintf("cmp_kriging.cpp:2218 Sample %d neighbors into cell (%d,%d)\n",sam_npts,i+1,j+1);
 			}
 		    }
 		  //dout<<"here 3"<<endl;
@@ -2235,6 +2241,8 @@ void Kriging_By_Space(	// calculate kriging by space
 		      sampleNeighbor.push_back(neighbor.get_index(i));
 		      // cout << " add3 " << i;			      
 		    }
+			//Rprintf("cmp_kriging.cpp:2244 Use %d neighbors without sampling\n",(int)neighbor.size());
+
 		}
 
 	      // initial Bins
@@ -2315,6 +2323,8 @@ void Kriging_By_Space(	// calculate kriging by space
 		      Bins[i].AvDistance = Bins[i].AvDistance / Bins[i].Pairs;
 		      Bins[i].AvSemi = Bins[i].AvSemi / Bins[i].Pairs;
 		    }
+			//Rprintf("cmp_kriging.cpp:2326 Variogram = %f npair= %d lag=%f\n",Bins[i].AvSemi,Bins[i].Pairs,Bins[i].AvDistance);
+
 		}
 		//dout<<"here 5"<<endl;
 
@@ -2326,6 +2336,7 @@ void Kriging_By_Space(	// calculate kriging by space
 					     parameters);	// variogram parameters (returned)
 	      // calculate variogram
 
+		//Rprintf("cmp_kriging.cpp:2339 model = %d sill=%f nugget=%f range=%f\n",parameters.ms,parameters.sills,parameters.nuggets,parameters.Hs);
 	      // Calculate Gamma matrix
 		//dout<<"here 6"<<endl;
 	      subNeighbor.clear();
@@ -2339,6 +2350,8 @@ void Kriging_By_Space(	// calculate kriging by space
 		    }
 		}
 
+		/* when no neighbor correlated, return less neighbor instead of subsampling
+			07/14/2013;
 	      if (subNeighbor.size() <= 1)
 		{
 		  if (sampleNeighbor.size() <= 50)
@@ -2358,6 +2371,16 @@ void Kriging_By_Space(	// calculate kriging by space
 			}
 		    }				
 		}
+		*/
+		if (subNeighbor.size() <=1)
+		{
+		  kvq	= LessNeighbors;
+		  kriging	= -99999;
+		  sigma = -99999;
+		  //Rprintf("cmp_kriging.cpp:2380 No neighbor within %f returning\n",parameters.Hs);
+		  return;
+		}
+
 
 	      /*if (parameters.nuggets == 0)
 		{
@@ -2374,7 +2397,7 @@ void Kriging_By_Space(	// calculate kriging by space
 	      int TempK  = 0;
 	      int TempP  = 0;
 	      double Temp1;
-	      double Temp2;
+	      //double Temp2;
 
 	      // TEST output neighbor
 	      // ofstream outN("./output/neighbor.csv", ofstream::out);
@@ -2476,10 +2499,13 @@ void Kriging_By_Space(	// calculate kriging by space
 			    }
 			}
 		    }
+			//if (i==0){
+			//	Rprintf("cmp_kriging.cpp:2503 Gamma[%d] = %f\n",TempK,GammaMatrix[TempK]);
+			//}
 		}
 
 	      // TEST output Gamma matrix
-	      // ofstream outGamma("./output/Gamma.csv", ofstream::out);
+	      // ofstream outGamma("./Gamma.csv", ofstream::out);
 	      //   for (int i = 0; i < npts+1; i++)
 	      //   {
 	      //   for (int j = 0; j < npts+1; j++)
@@ -2540,11 +2566,13 @@ void Kriging_By_Space(	// calculate kriging by space
 		    }
 						
 		  gVector[i] = (doublereal)Temp1;
+		 //Rprintf("cmp_kriging.cpp:2569 gVector[%d] = %f\n",i,Temp1);
+
 		}
 	      gVector[npts] = 1;
 
 	      // TEST output g vector
-	      // ofstream outg("./output/gvector.csv", ofstream::out);
+	      // ofstream outg("./gvector.csv", ofstream::out);
 	      //   for (int i = 0; i < npts+1; i++)
 	      //   {
 	      //   outg << gVector[i] << endl;
@@ -2558,17 +2586,17 @@ void Kriging_By_Space(	// calculate kriging by space
 		}
 
 	      //METHOD 1: calculate weight vector through GammaMatrix and gVector, GammaMatrix * gVector = weights
-	      /*integer M = npts;
+	      /*  integer M = npts;
 		integer nrhs = 1;
 		integer lda = M;
 		integer * ipiv = new integer[(npts + 1)];
 		integer ldb = M;
 		integer INFO;
 
-		dgesv_(&M,&nrhs,GammaMatrix,&lda,ipiv,gVector,&ldb,&INFO);
+		dgesv_(&M,&nrhs,GammaMatrix,&lda,ipiv,gVector,&ldb,&INFO); */
 
-		delete [] ipiv;
-		delete [] GammaMatrix;*/
+		//delete [] ipiv;
+		//delete [] GammaMatrix;
 	      // the weights value in the gVector now
 
 	      // METHOD 2: calculate weight vector through GammaMatrix and gVector, GammaMatrix * gVector = weights
@@ -2581,13 +2609,15 @@ void Kriging_By_Space(	// calculate kriging by space
 
 	      doublereal * c = new doublereal[(npts + 1)];
 	      integer lwork = npts + 1;
-	      integer INFO;
+	      integer INFO=1;
 
-	      dsysv_(&uplo,&M,&nrhs,GammaMatrix,&lda,ipiv,gVector,&ldb,c,&lwork,&INFO);//
+	      //Rprintf("pre dsysv_: INFO = %d\n",INFO);
+	      dsysv_(&uplo,&M,&nrhs,GammaMatrix,&lda,ipiv,gVector,&ldb,c,&lwork,&INFO);
+	      //Rprintf("cmp_kriging.cpp:2615 dsysv_: INFO = %d\n",INFO);
 
-	      delete [] c;
-	      delete [] ipiv;
-	      delete [] GammaMatrix;
+	      //delete [] c;
+	      //delete [] ipiv;
+	      //delete [] GammaMatrix;
 	      // the weights value in the gVector now
 
 	      // TEST output lamda vector
@@ -2598,14 +2628,27 @@ void Kriging_By_Space(	// calculate kriging by space
 	      //   }
 	      //   outl.close();
 	      // TEST output g vector
-
-	      if (INFO != 0)
-		{
-		  kvq	= NotInverseMatrix;
-		  kriging	= -99999;
-		  sigma = -99999;
-		}
-	      else
+	
+	      // Rprintf("INFO = %d\n",INFO);
+		//if (INFO > 0) {
+		//	Rprintf("INFO=%d > 0\n",INFO);
+		//}
+		//else if (INFO <0){
+		//	Rprintf("INFO=%d < 0\n",INFO);
+		//}
+		//else {
+		//	Rprintf("INFO=%d == 0\n",INFO);
+		//}
+	      //if (INFO != 0)
+		//{
+		  //kvq	= NotInverseMatrix;
+		  //kriging	= -99999;
+		  //sigma = -99999;
+		  //Rprintf("cmp_kriging.cpp:2637 not invertible matrix, returning\n");
+		//}
+	      //else
+		
+	      if (INFO == 0)
 		{
 		  kriging = 0;
 		  sigma = gVector[npts]; // 0;
@@ -2628,8 +2671,20 @@ void Kriging_By_Space(	// calculate kriging by space
 		    {
 		      kvq = OutofRange;
 		    }
+		  //Rprintf("cmp_kriging.cpp:2662 Kriging=%f Sigma=%f returning\n",kriging,sigma);
 		}
+	      else 
+	        {
+		  kvq	= NotInverseMatrix;
+		  kriging	= -99999;
+		  sigma = -99999;
+		  Rprintf("cmp_kriging.cpp:2637 INFO=%d not invertible matrix, returning\n",INFO);
+		}
+
 	      Hs = parameters.Hs;
+	      delete [] c;
+	      delete [] ipiv;
+	      delete [] GammaMatrix;
 	      delete [] gVector;
 	      delete [] lamda;
 
@@ -2679,7 +2734,7 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
   double sse_expy;
   double sse_gausy;
   double sse_mtey;
-  double sse;
+  double sse = R_PosInf;
   //AvDistTimeSemi* Bin;
 
   //for (int i = 0; i < DistBin; i++)
@@ -2699,6 +2754,8 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
   // if the numbers of missing values in the distance Bins are greater than 0.5*Bins, interpolate the missing values
   if (nn >= 0.5*DistBin)
     {
+	  //Rprintf("cmp_kriging.cpp:2734 first lag missing values, interpolate\n");
+
       for (int i = 0; i < DistBin; i++)
 	{
 	  if (Bins[i].Pairs == 0)
@@ -2711,6 +2768,7 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
 							      i);				// the index on distance Bin of missing value
 				
 	      Bins[i].Pairs = 1;
+	  	  //Rprintf("cmp_kriging.cpp:2748 interpolate bin %d = %f\n",i,Bins[i].AvSemi);
 	    }		
 	}		
     }
@@ -2722,6 +2780,7 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
       peakofsemi = peakofsemi > Bins[i].AvSemi ? peakofsemi : Bins[i].AvSemi;
     }
   peakofsemi = 0.8 * peakofsemi;
+  //Rprintf("cmp_kriging.cpp:2760 first Peak = %f\n",peakofsemi);
 
   // calculate Hs based on semi peak
   for (int i = 0; i < DistBin; i++)
@@ -2732,7 +2791,7 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
 	  i = DistBin;
 	}
     }
-  // Rprintf("Hs = %f \n", Hs);
+  //Rprintf("cmp_kriging.cpp:2771 Hs = %f \n", Hs);
   // Spherical model
   // SphY[jj] = nugget + sill*((3*x)/(2*H) - 0.5*pow(x/H, 3)) if x <= Hs
   // SphY[jj] = nugget + sill if x > Hs
@@ -2895,6 +2954,8 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
 	      sse_sphy = sse_sphy + Bins[i].Pairs * TempX1 * TempX1;
 	    }
 	}
+  	//Rprintf("cmp_kriging.cpp:2934 Spherical nugget= %f sill= %f SSE= %f \n", nugget_sphy,sill_sphy,sse_sphy);
+
     }
   if ((nugget_expy > 0)&&(sill_expy > 0))
     {
@@ -2907,7 +2968,8 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
 	      sse_expy = sse_expy + Bins[i].Pairs * TempX1 * TempX1;
 	    }
 	}
-    }
+   	//Rprintf("cmp_kriging.cpp:2949 Exponential nugget= %f sill= %f SSE= %f \n", nugget_expy,sill_expy,sse_expy);
+   }
   if ((nugget_gausy > 0)&&(sill_gausy > 0))
     {
       gausy_flag = true;
@@ -2919,6 +2981,7 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
 	      sse_gausy = sse_gausy + Bins[i].Pairs * TempX1 * TempX1;
 	    }
 	}
+   	//Rprintf("cmp_kriging.cpp:2961 Gaussian nugget= %f sill= %f SSE= %f \n", nugget_gausy,sill_gausy,sse_gausy);
     }
   if ((nugget_mtey > 0)&&(sill_mtey > 0))
     {
@@ -2931,6 +2994,8 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
 	      sse_mtey = sse_mtey + Bins[i].Pairs * TempX1 * TempX1;
 	    }
 	}
+   	//Rprintf("cmp_kriging.cpp:2975 Matern nugget= %f sill= %f SSE= %f \n", nugget_mtey,sill_mtey,sse_mtey);
+
     }
 
   if ((sphy_flag == false)&&(expy_flag == false)&&(gausy_flag == false)&&(mtey_flag == false))

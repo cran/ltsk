@@ -18,9 +18,19 @@ function(in_data,xcoord,ycoord,tcoord,zcoord)
 	if (is.na(match(l.coord,colnames(l.data)))){
 		l.txt <- colnames(l.data)
 		l.data <- cbind(l.data,NA)
-		warning(l.coord,"not found in input data!\n")
+		##warning(l.coord,"not found in input data!\n")
 		colnames(l.data) <- c(l.txt,l.coord)
 	}
-   }		
+   }
    as.matrix(l.data[,l.coords])
+}
+
+check_na <- function(in_data,type_txt)
+{
+	no_na <- na.omit(in_data)
+	dd <- nrow(in_data) - nrow(no_na)
+	if (dd>0){
+		warning(dd," ",type_txt," location removed.\n")
+	}
+	no_na
 }

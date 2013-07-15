@@ -19,15 +19,15 @@ dnb(query, obs, th)
 	coordinates and time stamps of the observed points
 }
   \item{th}{
-	distance and time thresholds
+	distance and time thresholds 
 }
 }
 \details{
-Let query point denote the X/Y coordinates and time stamp for which neighbor search is needed.  Query point may represent the spatio-temporal location of a case. Neighboring data are needed for exposure assessment.
+Let query point denote the X/Y coordinates and time stamp for which neighbour search is needed.  Query point may represent the spatio-temporal location of a case. Neighbouring data are needed for exposure assessment.
 
 Let observed points denote all locations (X/Y coordinates and time stamps) with observed exposure data. 
   
-This function identified the observed data within a given distance and time thresholds.
+This function identified the observed data within a given distance and time thresholds. Observed data within a given radius and time period both prior to and after the query location will be included.
 }
 \value{
 A vector of locations of observed data that are within the given distance and time threshold.
@@ -36,14 +36,14 @@ A vector of locations of observed data that are within the given distance and ti
 Dong Liang (dong-liang@uiowa.edu)
 }
 \note{
-This is a naive neighbor search. It works well for data that are dense in space but sparse in time. For large and dense spatiotemporal data, range tree should be used instead.
+This is a naive neighbour search. It works well for data that are dense in space but sparse in time. Future work involves range tree implementation for large and dense spatiotemporal data.
 }
 
 
 \examples{
 data(epa_cl)
-ii <- dnb(query[1,],obs,c(0.1,10))
-obs[ii,]
+coords <- c('x','y','t')
+ii <- dnb(query[1,coords],obs[,coords],c(0.1,10))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

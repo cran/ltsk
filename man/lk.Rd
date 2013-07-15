@@ -71,8 +71,10 @@ where the variogram model are
 \examples{
 data(epa_cl)
 data(ex)
-out <- lk(ex1.grid,ex1.data,0.3)
-quilt.plot(ex1.grid$x,ex1.grid$y,out$krig,nrow=20,ncol=20,main='predicted PM[2.5] 01/01/2005')
+out <- lk(ex1.grid,ex1.data,0.25)
+if(require(fields))
+	quilt.plot(ex1.grid$x,ex1.grid$y,out$krig,
+		nrow=10,ncol=10,main='predicted PM[2.5] 01/01/2005')
 }
 \author{
 Jun chen (wdidwlia@gmail.com)

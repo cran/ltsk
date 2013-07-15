@@ -3,8 +3,8 @@
 #pragma once
 
 #define DBL_MIN         2.2250738585072014e-308 /* min positive value */
-#include <iomanip>    
-#include <iostream>    
+//#include <iomanip>    
+//#include <iostream>    
 #include <vector>    
 
 
@@ -50,7 +50,7 @@ class point
     return !x_coord && !y_coord && !time;
   }
 
-  inline void print() { std::cout << std::setprecision(9)<< x_coord << ", " << y_coord << ", " << time << std::endl; }
+  //inline void print() { std::cout << std::setprecision(9)<< x_coord << ", " << y_coord << ", " << time << std::endl; }
 
 };
 

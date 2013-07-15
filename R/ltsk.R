@@ -4,8 +4,10 @@ function(query,obs,th,xcoord='x',ycoord='y',tcoord='t',zcoord='z',
 {
  seed <- round(runif(1) * 1000000)
  l.query <- check_input(query,xcoord,ycoord,tcoord,zcoord)
- l.obs <- check_input(obs,xcoord,ycoord,tcoord,zcoord)
- if(is.null(nproc)){
+ l.query <- check_na(l.query[,c(xcoord,ycoord,tcoord)],'query')
+  l.obs <- check_input(obs,xcoord,ycoord,tcoord,zcoord)
+  l.obs <- check_na(l.obs,'observed')
+if(is.null(nproc)){
 	set.seed(seed=seed)
 	## Use single core mode
  	out <- apply(l.query,1,working.ltsk,obs=l.obs,th=th,vth=vth,vlen=vlen,
@@ -14,10 +16,11 @@ function(query,obs,th,xcoord='x',ycoord='y',tcoord='t',zcoord='z',
  }
  else{
 	## Use multiple core mode
- 	cl <- makeSOCKcluster(nproc)
-	clusterSetupRNG(cl)
-	clusterSetupRNGstream(cl,seed=rep(seed,6))
- 	pwd <- getwd()
+ 	cl <- makeCluster(nproc)
+	#clusterSetupRNG(cl)
+	#clusterSetupRNGstream(cl,seed=rep(seed,6))
+ 	clusterSetRNGStream(cl,seed)
+	pwd <- getwd()
  	clusterCall(cl,setwd,dir=pwd)
 	clusterEvalQ(cl,library(ltsk))
  	#nmlist <- list('l.obs','th','xcoord','ycoord','tcoord','zcoord',

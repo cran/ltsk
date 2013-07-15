@@ -6,42 +6,19 @@ using namespace std;					// make std:: accessible
 vector<point> plist;
 
 extern "C" { 
-int lk_main(double *x, int *xn, double *y, int *yn, double *z, int *zn, double *lon, int *lon_n, double *lat, int *lat_n)
+int lk_main(double *x, int *xn, double *y, int *yn, double *z, int *zn, double *lon, int *lon_n, double *lat, int *lat_n,double *th, int *vlen, double *krig_out, double *sigma_out, double *hs_out, double *psill_out, double *nugget_out, int *ms_out)
 {
-  ConfigFile config( "./config.txt" );
-
   vector<point_q> list_q;
 
-  string RS, RT;
-  int Rs, Rt;
-  config.readInto(RS, "Rs");
-  config.readInto(RT, "Rt");
-  Rs=atoi(RS.c_str());
-  Rt=atoi(RT.c_str());
-  int distbin=Rs;
+  int distbin= *vlen;
 
-  string numMax;
   int MaxPt;
-  config.readInto(numMax, "MAXPTS_ANN");
-  MaxPt=atoi(numMax.c_str());
+  MaxPt = *(xn) + 1000;
 
-  string Dist_Range;
   double dist_range;
-  config.readInto(Dist_Range, "dist_range");
-  //Rprintf("Distance range= %s\n",Dist_Range.c_str());
-  dist_range=atof(Dist_Range.c_str());
+  dist_range = *th;
   //Rprintf("Distance range= %f\n",dist_range);
 
-  string Dist_Step;
-  double dist_step;
-  config.readInto(Dist_Step, "dist_interval");
-  dist_step=atof(Dist_Step.c_str());
-
-  vector<double> distVec;
-
-  for(int i=1; i<=dist_range/dist_step;i++) {
-    distVec.push_back(dist_step*i);
-  }
 
   plist.clear(); // clear the point list;
   
@@ -51,32 +28,14 @@ int lk_main(double *x, int *xn, double *y, int *yn, double *z, int *zn, double *
   dataPts_2 = annAllocPts(MaxPt, 2);			// allocate data points  
   int MaxPts = r_file_s(x, xn, y, yn, z, zn, dataPts_2);
 
-  //for(int i=0; i<5; i++){
-	//Rprintf("query %d = (%f,%f)\n",i,list_q[i].x(),list_q[i].y());
-  //}
-  //for(int i=0; i<5; i++){
-	//Rprintf("obs %d = (%f,%f)\n",i,dataPts_2[i][0],dataPts_2[i][1]);
-  //}
-  //Rprintf("Rs=%d\n distbin=%d MaxPts=%d",Rs,distbin,MaxPts);
-   for(int i=0; i<distVec.size(); i++) {
-      string s;
-      stringstream out;
-      //out << distVec[i];
-	  out << i;
-      s = out.str();
-      string num="_" + s;
-      char outname[100]="output";
-      strcat(outname, num.c_str());
-      // // cout << outname << endl;
-	  
-      query_instance(dataPts_2, list_q, Rs, distVec[i],  outname, distbin, MaxPts);
-    }
-  distVec.clear();
+  query_instance(dataPts_2, list_q, dist_range, distbin, MaxPts, 
+		&krig_out[0],&sigma_out[0], &hs_out[0], &psill_out[0], &nugget_out[0], &ms_out[0]);
+  return EXIT_SUCCESS;
+}
 }
 
-}
-
-int query_instance(ANNpointArray& dataPts_2, vector<point_q>& list_q, int Rs, double dist, char* outname, int distBin, int nPts )
+int query_instance(ANNpointArray& dataPts_2, vector<point_q>& list_q, double dist, int distBin, int nPts, double *krig_out, 
+	double *sigma_out, double *hs_out, double *psill_out, double *nugget_out, int *ms_out)
 {
   int	k      = 0;		// number of nearest neighbors
   // int	dim    = 0;		// dimension
@@ -86,9 +45,9 @@ int query_instance(ANNpointArray& dataPts_2, vector<point_q>& list_q, int Rs, do
   ANNkd_tree*	kdTree_2;	// search structure
   
   ModelSelection m=Init;
-  double alpha;
-  double beta;
-  CalculateMethod c=None;
+  double alpha = 2.0;
+  //double beta;
+  //CalculateMethod c=None;
   double kriging;
   double sigma;
   KrigingValueQuality kvq=Empty;
@@ -110,23 +69,14 @@ int query_instance(ANNpointArray& dataPts_2, vector<point_q>& list_q, int Rs, do
 			   nPts,		// number of points
 			   2);			// dimension of space
 
-  ofstream fout;
-  fout.open(outname);
-  // cout << outname << endl;
   
-  for (int i=0; i<list_q.size(); i++)
+  for (unsigned int i=0; i<list_q.size(); i++)
     {
       // if(i!=93) continue;
       queryPt_2 = annAllocPt(2);					// allocate query point
       
       queryPt_2[0]=list_q[i].x();
       queryPt_2[1]=list_q[i].y();
-      // // // cout << queryPt_2[0] << " ";
-      // // // cout << queryPt_2[1] << " ";
-      // // // cout << dist << endl;            
-      // fout << queryPt_2[0] << " ";
-      // fout << queryPt_2[1] << " ";
-      // fout << dist << endl;            
 
       npts=kdTree_2->annkFRSearch(
 				  queryPt_2, // query point
@@ -151,48 +101,46 @@ int query_instance(ANNpointArray& dataPts_2, vector<point_q>& list_q, int Rs, do
 				 dists , // dist to near neighbors (modified)
 				 eps ); // error bound)))
 
-	  //// // cout << "\tNN:\tIndex\tDistance\n";
-
-	  // vector<int> res;
-	  // fout << k <<endl;			  
  
-	  for (int i = 0; i < k; i++) 
+	  for (int j = 0; j < k; j++) 
 	    {
-	      nv.push_back(nnIdx[i]);
-	      calculate(nnIdx[i], queryPt_2[0], queryPt_2[1]);
+	      nv.push_back(nnIdx[j]);
+	      calculate(nnIdx[j], queryPt_2[0], queryPt_2[1]);
 	    }
-	 //ofstream dout;
-	 //dout.open("debug_1");
-	 //dout << "x0=" << queryPt_2[0] <<" y0=" << queryPt_2[1] <<endl;
-	 //for (int i = 0; i < k; i++)
-	 //{
-			//dout << "x=" << nv[nnIdx[i]].x_coord<<" y= "<< nv[nnIdx[i]].y_coord << "distance= " << nv[nnIdx[i]].distance << endl;
-	 //}
-	 //dout.close();
 
 	  // // // cout << "kriging starting " << endl;
 	  // // // cout << "nv size before passing in " << nv.size() << endl;
 	  // // // cout << "nv 1st index before passing in " << nv.get_index(0) << endl;
-	 //Rprintf("kriging starting\n");
-	 //Rprintf("nv size before passing in %d\n", nv.size());
+	  
+	 //Rprintf("ltsk.cpp:176 kriging starting for (%f,%f)\n",queryPt_2[0],queryPt_2[1]);
+	 //Rprintf("ltsk.cpp:177 neighborhood size before passing in %d\n", nv.size());
+	 
 	 //Rprintf("nv 1st index before passing in \n",nv.get_index(0));
 	  Kriging_By_Space( nv, distBin, m, alpha, kriging, sigma, Hs, parameters, kvq);
-	  // fout << setprecision(9) <<  queryPt_2[0] << ", " << queryPt_2[1] << ", " << kriging << " " << sigma << " " << Hs << " " << kvq << endl;
-	  fout << setprecision(10) <<  "," << kriging <<  "," << sigma << "," << Hs << "," << parameters.nuggets << "," << parameters.sills << "," <<parameters.ms <<endl;	  
-	  // // // cout << queryPt_2[0] << ", " << queryPt_2[1] << " " << kriging << " " << sigma << " " << Hs << " " << kvq << endl;
 	  //Rprintf("query=(%f,%f), Kriging=%f sigma=%f Hs=%f \n",queryPt_2[0],queryPt_2[1],kriging,sigma,Hs);
+	  krig_out[i] = kriging;
+	  sigma_out[i] = sigma;
+	  hs_out[i] = Hs;
+	  psill_out[i] = parameters.sills;
+	  nugget_out[i] = parameters.nuggets;
+	  ms_out[i] = parameters.ms;
 	  nv.clear();
 	  delete [] nnIdx;	// clean things up
 	  delete [] dists;
+	  delete [] queryPt_2;
 	  // kriging=0;
 	}
       else
 	{
-	  fout << setprecision(10) << ",null" << ",null" << ",null" <<  ",null" << ",null" << ",null" << endl; 
-	  // fout << setprecision(10) <<  queryPt_2[0] << ", " << queryPt_2[1] << ", null"<< endl;
-}
+	  //fout << setprecision(10) << ",null" << ",null" << ",null" <<  ",null" << ",null" << ",null" << endl; 
+	  krig_out[i] = -99999;
+	  sigma_out[i] = -99999;
+	  hs_out[i] = -99999;
+	  psill_out[i] = -99999;
+	  nugget_out[i] = -99999;
+	  ms_out[i] = -99999;
+	}
     }
-  fout.close();
   delete kdTree_2;
   annClose();		// done with ANN
 

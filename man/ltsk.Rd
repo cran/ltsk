@@ -65,14 +65,16 @@ Details on the development of spatiotemporal neighborhood through sub-sampling c
 Kriging mean and standard error and quality flags.
 \tabular{ll}{
 0 \tab valid prediction\cr
-1 \tab not enough temporal neighbors \cr
-2 \tab not enough spatial neighbors \cr
-2 \tab not enough neighbors \cr
+1 \tab not enough temporal neighbours (less than 3 by default)\cr
+2 \tab not enough spatial neighbours (less than 3 by default) \cr
+4 \tab not enough neighbours (less than 5 observed data) \cr
 }
 
 }
 \references{
 Iaco, S. De & Myers, D. E. & Posa, D., 2001. "Space-time analysis using a general product-sum model," Statistics & Probability Letters, Elsevier, vol. 52(1), pages 21-28, March.
+
+Kumar,N., Liang, D., Chu, A., Abrams, T., forthcoming. "Satellite based PM concentrations and its application to COPD in Cleveland", Journal of Exposure Science and Environmental Epidemiology.
 }
 \author{
 Dong Liang (dong-liang@uiowa.edu)
@@ -87,10 +89,11 @@ data(epa_cl)
 obs[,'pr_pm25'] = log(obs[,'pr_pm25'])
 ## run kriging
 system.time(out <- ltsk(ex2.query[1:2,],obs,c(0.10,10),zcoord='pr_pm25'))
+## simple parallel kriging
+system.time(out <- ltsk(ex2.query[1:2,],obs,c(0.10,10),zcoord='pr_pm25',nproc=2))
 ## output
 table(out$flag)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

@@ -5,6 +5,7 @@
 \alias{vmte}
 \alias{vpown}
 \alias{check_input}
+\alias{check_na}
 \alias{vopw}
 \alias{dsphn}
 \alias{dfitvariogram}

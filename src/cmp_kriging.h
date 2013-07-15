@@ -152,7 +152,7 @@ enum KrigingValueQuality {
 		Empty		= 0,		// empty value(initial value)
 		IDWValue	= 1,		// the returned value is IDW
 		Good		= 2,		// good returned kriging value 
-		LessNeighbors	= 3,		// less than 5 neighbors
+		LessNeighbors	= 3,		// less than 5 neighbors (only correlated)
 		LessNeighborsInSpace		= 4,		// less neighbors in space
 		LessNeighborsInTime		= 5,		// less neighbors in time
 		LessNeighborsInSpaceAndTime 	= 6,		// less neighbors in space and time
