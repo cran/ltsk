@@ -99,7 +99,7 @@ void CMP_Kriging_By_Space_and_Time(   // calculate kriging by space and time
   int	   sam_npts;
   vector<int> sampleNeighbor;
   vector<bool> sampling;
-  int    TempR; // random number
+// int    TempR; // random number
   int    ns, nt;
   double dist_max;
   double time_max;
@@ -197,7 +197,7 @@ void CMP_Kriging_By_Space_and_Time(   // calculate kriging by space and time
 	  else // npts > MINNEIGHBOR
 	    {
 	      // setup random value enable 
-	      srand((unsigned)time(NULL));
+	      // srand((unsigned)time(NULL));
 
 	      // search the range of x, y and time
 	      xmin = neighbor[0].x_coord;
@@ -370,15 +370,21 @@ void CMP_Kriging_By_Space_and_Time(   // calculate kriging by space and time
 					    }
 
 					  // output sam_npts neighbors from cube to subneighbors
+					  //for (int p = 0; p < sam_npts; p++)
+					  //  {
+					  //    TempR = rand() % (int)neighborcube[i][j][k].size();
+					  //    while (sampling[neighborcube[i][j][k][TempR]] == true)
+						//{
+						 // TempR = rand() % (int)neighborcube[i][j][k].size();
+						//}
+					     // sampling[neighborcube[i][j][k][TempR]] = true;
+					      //sampleNeighbor.push_back(neighborcube[i][j][k][TempR]);
+					    //}
+						
+					  // output first sam_npts neighbors from cube to subneighbors
 					  for (int p = 0; p < sam_npts; p++)
 					    {
-					      TempR = rand() % (int)neighborcube[i][j][k].size();
-					      while (sampling[neighborcube[i][j][k][TempR]] == true)
-						{
-						  TempR = rand() % (int)neighborcube[i][j][k].size();
-						}
-					      sampling[neighborcube[i][j][k][TempR]] = true;
-					      sampleNeighbor.push_back(neighborcube[i][j][k][TempR]);
+							sampleNeighbor.push_back(neighborcube[i][j][k][p]);
 					    }
 					}								
 				    }
@@ -1058,7 +1064,7 @@ void VariogramCalculationBySpaceAndTime(			// calculate variogram by space and t
   double sse_expy;
   double sse_gausy;
   double sse_mtey;
-  double sse = R_PosInf;
+  double sse = INFINITY;
   AvDistTimeSemi* Bin;
 
   // initial the first distance Bins
@@ -1974,7 +1980,7 @@ void Kriging_By_Space(	// calculate kriging by space
   double			TempZ1;
   vector<int>		sampleNeighbor;
   int				sam_npts;
-  int				TempR; // random number
+  //int				TempR; // random number
   AvDistSemi     *Bins;
   double			d_interval;
   int				di;
@@ -2107,7 +2113,7 @@ void Kriging_By_Space(	// calculate kriging by space
 			  //Rprintf("cmp_kriging.cpp:2106 %d too large. Subsampling starts\n",npts);
 			  //dout<<"here 1 npts="<<npts<<endl;
 		      // setup random value enable 
-		      srand((unsigned)time(NULL));
+		      // srand((unsigned)time(NULL));
 
 		      xn = NEIGHBORCELL;
 		      yn = NEIGHBORCELL;
@@ -2198,20 +2204,24 @@ void Kriging_By_Space(	// calculate kriging by space
 					// Algorithm Due to 
 					// http://www.cs.ucr.edu/~ciardo/teaching/CS177/section6.5.pdf;
 					// c 2006 Pearson Ed., Inc. 0-13-142917-5
-					int l = 0;
-					int TempK;
-					for (unsigned int k = 0; k < neighborcell[i][j].size(); k++)
+					// int l = 0;
+					// int TempK;
+					// for (unsigned int k = 0; k < neighborcell[i][j].size(); k++)
+					// {
+						// l = l + 1;
+						// TempR = rand() % (neighborcell[i][j].size() - k) + k;
+						// TempK = neighborcell[i][j][TempR];
+						// neighborcell[i][j][TempR] = neighborcell[i][j][k];
+						// neighborcell[i][j][k] = TempK;
+						// //dout << " add2 " << TempK;
+						// sampleNeighbor.push_back(TempK);
+						// if (l > sam_npts){
+							// break;
+						// }
+					// }
+					for (int k = 0; k< sam_npts;k++)
 					{
-						l = l + 1;
-						TempR = rand() % (neighborcell[i][j].size() - k) + k;
-						TempK = neighborcell[i][j][TempR];
-						neighborcell[i][j][TempR] = neighborcell[i][j][k];
-						neighborcell[i][j][k] = TempK;
-						//dout << " add2 " << TempK;
-						sampleNeighbor.push_back(TempK);
-						if (l > sam_npts){
-							break;
-						}
+						sampleNeighbor.push_back(neighborcell[i][j][k]);
 					}
 				}								
 			    }
@@ -2734,7 +2744,7 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
   double sse_expy;
   double sse_gausy;
   double sse_mtey;
-  double sse = R_PosInf;
+  double sse = INFINITY;
   //AvDistTimeSemi* Bin;
 
   //for (int i = 0; i < DistBin; i++)

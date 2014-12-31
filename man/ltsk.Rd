@@ -1,85 +1,94 @@
 \name{ltsk}
 \alias{ltsk}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Local time and space kriging
+Ordinary Local Time and Space Kriging
 }
 \description{
-This function implements spatiotemporal neighbor search, automatic variogram estimation using the product-sum model and ordinary Kriging at multiple query locations using the observed data.
+Function implements ordinary time and space kriging for large data sets, with automatic product-sum variogram estimation.
 }
 \usage{
 ltsk(query, obs, th, xcoord = "x", ycoord = "y", tcoord = "t", 
 	zcoord = "z", vth = NULL, vlen = NULL, llim = c(3, 3), 
-	verbose = T, Large = 2000, nproc = NULL)
+	verbose = T, Large = 2000, future=T, cl = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{query}{
-data frame containing query spatiotemporal locations
+a data frame containing query spatiotemporal locations for which predictions are needed
 }
   \item{obs}{
-data frame containing spatiotemporal locations and observed data
+a data frame containing spatiotemporal locations and observed data
 }
   \item{th}{
-a priori chosen distance and time thresholds for neighbor search
+a vector, distance threshold and time lag to define neighbors of a query point
 }
   \item{xcoord}{
-field name for x coordinate in both query and obs
+a character constant, the field name for x coordinate in both \code{query} and \code{obs}
 }
   \item{ycoord}{
-field name for y coordinate in both query and obs
+a character constant, the field name for y coordinate in both \code{query} and \code{obs}
 }
   \item{tcoord}{
-	field name for time coordinate in both query and obs
+a character constant, the field name for time coordinate in both \code{query} and \code{obs}
 }
 
   \item{zcoord}{
-	field name for data in obs
+a character constant, the field name for data in \code{obs}
 }
   \item{vth}{
-	thersholds for local spatiotemporal varigoram (default 75\% max lag difference)
+	thersholds for local spatiotemporal varigoram (default 75\% of the max lag difference)
 }
   \item{vlen}{
 	numbers of bins for local spatiotemporal varigram(default,space 15, temporal for each day)
 }
   \item{llim}{
-lower limits for number of data points to calculate Kriging (default 3 spatial, 3 temporal neighbors)
+lower limits for number of regions and intervals with observed data to calculate Kriging (default 3 spatial regions, 3 temporal intervals)
 }
   \item{verbose}{
-boolean whether print details information
+logical, whether print details information
 }
   \item{Large}{
-upper limit of neighbor points, beyond which subsampling was done
+a numeric constant, upper limit of neighbor points, beyond which subsampling is performance
 }
-  \item{nproc}{
-	number of cores to use (defautl single core)
+	\item{future}{
+logical,	whether including observed points in future relative to query points.
+}
+  \item{cl}{
+	a \pkg{parallel} cluster object (default single core)
 }
 }
 \details{
-This function generalizes the local Kriging method to large spatiotemporal data. For each query point, a local 
-spatiotemporal neighborhood of observed data was identified. Local spatiotemporal variogram was estiamted for ordinary Kriing. 
+Function implements automatic variogram estimation (when possible) within a local spatiotemporal neighborhoods, and ordinary krigng based on the produce-sum variogram within that neighborhood. An variogram is estimated for each query point to allow for possible non-stationarity in the data generating field. 
 
-Details on the development of spatiotemporal neighborhood through sub-sampling can be found in the local spatial Kriging documents. The product-sum approach wass used to model the local variogram. Details on estimating the variogram model within each neighborhood can be found in Iaco et. al 2001.
+If the number of neighbors exceeds a user-specified upper limit (\code{Large}), neighbors are sub-sampled in a balanced way to reduce the neighborhood size. 
+
+Four variogram models: Gaussian, exponential, spherical and Matern are automatically fit to the empirical space and time variogram in the first lag. The range parameter is estimated from the first distance lag where the empirical variogram exceeds 80\% of the maximum. Weighted least square is then used to estimate the nugget and partial sill parameters. Model with minimal residual sum of squares between the empirical and fitted variogram is chosen as the variogram model.
+
 }
 \value{
-Kriging mean and standard error and quality flags.
+Kriging mean and standard deviation and quality flags.
 \tabular{ll}{
 0 \tab valid prediction\cr
-1 \tab not enough temporal neighbours (less than 3 by default)\cr
-2 \tab not enough spatial neighbours (less than 3 by default) \cr
-4 \tab not enough neighbours (less than 5 observed data) \cr
+1 \tab not enough temporal neighbors \cr
+2 \tab not enough spatial neighbors \cr
+3 \tab not enough neighbors \cr
+4 \tab variogram could not be fit \cr
 }
 
 }
 \references{
+Haas, Timothy C. "Local prediction of a spatio-temporal process with an application to wet sulfate deposition." Journal of the American Statistical Association 90.432 (1995): 1189-1199.
+
 Iaco, S. De & Myers, D. E. & Posa, D., 2001. "Space-time analysis using a general product-sum model," Statistics & Probability Letters, Elsevier, vol. 52(1), pages 21-28, March.
 
-Kumar,N., Liang, D., Chu, A., Abrams, T., forthcoming. "Satellite based PM concentrations and its application to COPD in Cleveland", Journal of Exposure Science and Environmental Epidemiology.
+Kumar, N., et al. (2013). "Satellite-based PM concentrations and their application to COPD in Cleveland, OH." Journal of Exposure Science and Environmental Epidemiology 23(6): 637-646.
+	
+Liang, D. and N. Kumar (2013). "Time-space Kriging to address the spatiotemporal misalignment in the large datasets." Atmospheric Environment 72: 60-69.
 }
 \author{
-Dong Liang (dong-liang@uiowa.edu)
+Naresh Kumar (NKumar@med.miami.edu)
+Dong Liang (dliang@umces.edu)
 }
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{
 ## load the data
@@ -88,12 +97,8 @@ data(epa_cl)
 ## apply log transformation
 obs[,'pr_pm25'] = log(obs[,'pr_pm25'])
 ## run kriging
-system.time(out <- ltsk(ex2.query[1:2,],obs,c(0.10,10),zcoord='pr_pm25'))
-## simple parallel kriging
-system.time(out <- ltsk(ex2.query[1:2,],obs,c(0.10,10),zcoord='pr_pm25',nproc=2))
-## output
+system.time(out <- ltsk(ex2.query[1:2,],obs,c(0.10,10),zcoord='pr_pm25',verbose=FALSE))
 table(out$flag)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+
 

@@ -21,16 +21,27 @@ function(in_data,xcoord,ycoord,tcoord,zcoord)
 		##warning(l.coord,"not found in input data!\n")
 		colnames(l.data) <- c(l.txt,l.coord)
 	}
-   }
+   }		
    as.matrix(l.data[,l.coords])
 }
 
 check_na <- function(in_data,type_txt)
 {
-	no_na <- na.omit(in_data)
-	dd <- nrow(in_data) - nrow(no_na)
-	if (dd>0){
-		warning(dd," ",type_txt," location removed.\n")
-	}
-	no_na
+  if( is.null(dim(in_data)))
+  {
+    ## data is a vector
+    l.data <- matrix(in_data,ncol=length(in_data),nrow=1)
+    colnames(l.data) <- names(in_data)
+  }
+  else{
+    l.data <- in_data
+  }
+  na.omit(l.data)
+  ## no_na <- na.omit(l.data)
+  
+  #dd <- attr(no_na,"na.action")
+  #if (length(dd)>0){
+	#	cat(length(dd)," ",type_txt," location removed.\n")
+	#}
+	## no_na
 }

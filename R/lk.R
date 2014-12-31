@@ -1,40 +1,36 @@
-lk <- function(query,obs,th,xcoord='x',ycoord='y',zcoord='z',vlen=15)
+lk <- function(query,obs,th,xcoord='x',ycoord='y',zcoord='z',vlen=15,cl=NULL)
 {
   l.query <- check_input(query,xcoord,ycoord,'tt__tt',zcoord)
-  l.query <- check_na(l.query[,c(xcoord,ycoord)],'query')
   l.obs <- check_input(obs,xcoord,ycoord,'tt__tt',zcoord)
-  l.obs <- check_na(l.obs[,c(xcoord,ycoord,zcoord)],'observed')
-  th <- th^2 ## sqaured the threshold to accomodate ANN search
-  l.vlen = as.integer(vlen)
+  seed <- round(runif(1) * 1000000)
   
-  ## invoke the local kriging library
-  nn <- nrow(l.query)
-  out <- .C("lk_main",
-	as.double(l.obs[,xcoord]),
-	as.integer(nrow(l.obs)),
-	as.double(l.obs[,ycoord]),
-	as.integer(nrow(l.obs)),
-	as.double(l.obs[,zcoord]),
-	as.integer(nrow(l.obs)),
-	as.double(l.query[,xcoord]),
-	as.integer(nrow(l.query)),
-	as.double(l.query[,ycoord]),
-	as.integer(nrow(l.query)),
-	as.double(th),
-	as.integer(l.vlen),
-	krig=double(nn),
-	sigma=double(nn),
-	hs=double(nn),
-	psill=double(nn),
-	nugget=double(nn),
-	ms=integer(nn))
-  ## collect the result
-  l.out <- cbind(1:nn,out$krig,out$sigma,out$hs,out$nugget,out$psill,out$ms)
-  colnames(l.out) <- c('null','krig','sigma','Hs','nugget','psill','model')
-  ## recode missing values 
-  ii <- which(l.out[,2]==-99999)
-  jj <- which(l.out[,3]==-99999)
-  if(length(ii)>0) l.out[ii,2] <- NA
-  if(length(jj)>0) l.out[jj,3] <- NA
-  data.frame(l.out[,-1])
+  if(is.null(cl)){
+    r <- working.lk.par(l.query,l.obs,th,xcoord=xcoord,ycoord=ycoord,zcoord=zcoord,vlen=vlen)
+  }
+  else if ("cluster" %in% class(cl)){
+    clusterSetRNGStream(cl,seed)
+    pwd <- getwd()
+    clusterCall(cl,setwd,dir=pwd)
+    clusterEvalQ(cl,library(ltsk))
+    
+    res <- partSpUtil(l.obs,l.query,length(cl),th,xcoord=xcoord,ycoord=ycoord)
+    ll.query <- vector('list',length(res$query))
+    ll.obs <- vector('list',length(res$obs))
+    ll.order <- vector('list',length(res$query))
+    for(i in 1:length(ll.query)){
+      ll.query[[i]] <- l.query[res$query[[i]],]
+      ll.obs[[i]] <- l.obs[res$obs[[i]],]
+      ll.order[[i]] <- res$query[[i]]
+    }
+    ll.args <- list(th=th,xcoord=xcoord,ycoord=ycoord,zcoord=zcoord,vlen=vlen)
+    out1 <- clusterMap(cl=cl,fun=working.lk.par,ll.query,ll.obs,MoreArgs=ll.args)
+    r <- do.call(rbind,out1)
+    r.order <- do.call(c,ll.order)
+    r <- r[order(r.order),]
+  
+  }
+  else{
+    stop(cl," is not a cluster\n")
+  }
+  r
 }

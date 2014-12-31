@@ -16,7 +16,7 @@ function(query,obs,fout,subset= T)
 	ii <- which( (dvec < fout$scoef[2]) | (tvec < fout$tcoef[2]) )
 	nn <- nrow(obs)
 	if((length(ii))<=1){
-		cat('[cal.gamma: subset to null neighbors, switch to sample 10%]\n')
+		#cat('[cal.gamma: subset to null neighbors, switch to sample 10%]\n')
 		if(nn >= 50) obs <- obs[sort(sample(nn,nn/10)),]
 	} else{
 		obs <- matrix(obs[ii,],ncol=4)

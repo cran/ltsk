@@ -1,4 +1,7 @@
+export(tsk)
 export(ltsk)
+export(ltsk.cv)
+export(cltsk)
 export(lk)
 export(dnb)
 importFrom(fields,rdist)

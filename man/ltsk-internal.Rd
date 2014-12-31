@@ -5,7 +5,6 @@
 \alias{vmte}
 \alias{vpown}
 \alias{check_input}
-\alias{check_na}
 \alias{vopw}
 \alias{dsphn}
 \alias{dfitvariogram}
@@ -20,13 +19,20 @@
 \alias{working.fitvariog1}
 \alias{dsmooth.variogram}
 \alias{working.ltsk}
+\alias{working.cltsk}
 \alias{working.ltsk.par}
+\alias{working.lk.par}
+\alias{partSpUtil}
+\alias{partUtil}
 \alias{dsubsample}
 \alias{vgau}
 \alias{working.smoothvariogram}
 \alias{dvariogram}
 \alias{vmten}
 \alias{work.kriging}
+\alias{check_na}
+\alias{working.tsk}
+\alias{work.kriging.vec}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Internal functions to ltsk

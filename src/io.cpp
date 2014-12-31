@@ -35,7 +35,7 @@ void calculate(int& index, double& qlat, double& qlon, int& qtime)
 {
   plist[index].distance = sqrt(pow((plist[index].x_coord - qlat), 2) + pow((plist[index].y_coord - qlon), 2));
   plist[index].timediff = abs(plist[index].time - qtime);
-}
+};
 
 void calculate(int& index, double& qlat, double& qlon)
 {

@@ -1,51 +1,51 @@
 \name{dnb}
 \alias{dnb}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Time space neighbor search
+Search Neighbours in Time and Space Within Specified Ranges
 }
 \description{
-Identify locations adjacent in both space and time to a given location.
+A brute force neighbor search implementation to identify observed data points within a given distance around location and time interval.
 }
 \usage{
-dnb(query, obs, th)
+dnb(query, obs, th, future=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{query}{
-	a vector of x/y coordinates and time stamp of the query point
+	a vector; the x, y coordinates and the time stamp of the query point
 }
   \item{obs}{
-	coordinates and time stamps of the observed points
+	a matrix; the x, y coordinates and time stamps of the spatiotemporal locations
 }
   \item{th}{
-	distance and time thresholds 
+	a vector; the distance threshold and time lag
+}
+	\item{future}{
+	logical, whether include observed spatiotemporal points future in time relative to the query spatiotemporal location.
 }
 }
 \details{
-Let query point denote the X/Y coordinates and time stamp for which neighbour search is needed.  Query point may represent the spatio-temporal location of a case. Neighbouring data are needed for exposure assessment.
 
-Let observed points denote all locations (X/Y coordinates and time stamps) with observed exposure data. 
-  
-This function identified the observed data within a given distance and time thresholds. Observed data within a given radius and time period both prior to and after the query location will be included.
+Implementation involves first calculating the time lags between query point and observed data (with locational coordinates and time); for observed locations within time lag of query, the function calculates the Euclidean distances between query location and all potential neighbors and select those within specified distance threshold.
+
+The future argument can be used to exclude data in the future in neighbor search. This is useful in an extrapolation application.
 }
 \value{
-A vector of locations of observed data that are within the given distance and time threshold.
+A vector, row numbers in the observed data matrix, that are within the given distance threshold and time lag of the query location.
 }
 \author{
-Dong Liang (dong-liang@uiowa.edu)
+Dong Liang (dliang@umces.edu)
 }
 \note{
-This is a naive neighbour search. It works well for data that are dense in space but sparse in time. Future work involves range tree implementation for large and dense spatiotemporal data.
+For large dataset, use ANN (for spatial kriging) and Range Tree for spatiotemporal Kriging.
 }
 
+\seealso{
+\code{get.knn} in \pkg{FNN}
+}
 
 \examples{
 data(epa_cl)
 coords <- c('x','y','t')
 ii <- dnb(query[1,coords],obs[,coords],c(0.1,10))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

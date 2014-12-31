@@ -21,7 +21,7 @@ function(vout)
   }
   if ( chkt >0.5){
 	 ii <- with(vout$gamma.0t, which(n==0))
-	 coords <- with(vout, cbind(ddist[1],gamma.0t$x[ii]))
+	 coords <- with(vout, cbind(tdist[1],gamma.0t$x[ii]))
 	 ghat <- working.smoothvariogram(coords,vout$gamma.long,dd)
 	 vout$gamma.0t[ii,c(2,3)] <- cbind(1,ghat)
 	 tmp <- cbind(coords,ghat,1)
