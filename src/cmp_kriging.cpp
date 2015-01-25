@@ -1064,7 +1064,7 @@ void VariogramCalculationBySpaceAndTime(			// calculate variogram by space and t
   double sse_expy;
   double sse_gausy;
   double sse_mtey;
-  double sse = INFINITY;
+  double sse = R_PosInf;
   AvDistTimeSemi* Bin;
 
   // initial the first distance Bins
@@ -2744,7 +2744,7 @@ void Variogram_By_Space_Calculation(		// calculate variogram by space function
   double sse_expy;
   double sse_gausy;
   double sse_mtey;
-  double sse = INFINITY;
+  double sse = R_PosInf;
   //AvDistTimeSemi* Bin;
 
   //for (int i = 0; i < DistBin; i++)
