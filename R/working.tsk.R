@@ -6,7 +6,7 @@ function(q0,obs,subset,nmin,nmax,vth,vlen,llim,verbose,Large,future)
   vout <- NULL
   fout <- NULL
 	if( nrow(obs)<=5 ){
-		if(verbose) cat('k= ',nrow(nobs),'\n')
+		if(verbose) cat('k= ',nrow(obs),'\n')
     r <- list(krig=fit,variog=NULL,fitvariog=NULL)
 		return(r)
 	}

@@ -13,6 +13,7 @@ function(in_data,xcoord,ycoord,tcoord,zcoord)
 	## query is a matrix
 	l.data <- in_data
    }
+   
    for (l.coord in l.coords)
    {
 	if (is.na(match(l.coord,colnames(l.data)))){
@@ -22,7 +23,17 @@ function(in_data,xcoord,ycoord,tcoord,zcoord)
 		colnames(l.data) <- c(l.txt,l.coord)
 	}
    }		
-   as.matrix(l.data[,l.coords])
+   r <- as.matrix(l.data[,l.coords])
+   
+   ## check for duplicates
+   isdup <- duplicated(r)
+   if(any(isdup)){
+	 arg <- deparse(substitute(in_data))
+	 warning(sum(isdup), " duplicates removed from ", arg,"\n")
+	 r <- r[!isdup,]
+   }
+   
+   r
 }
 
 check_na <- function(in_data,type_txt)

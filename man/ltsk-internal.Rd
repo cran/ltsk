@@ -33,6 +33,8 @@
 \alias{check_na}
 \alias{working.tsk}
 \alias{work.kriging.vec}
+\alias{lnbk}
+\alias{rowSplit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Internal functions to ltsk
