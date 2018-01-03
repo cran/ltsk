@@ -9,13 +9,11 @@ function(query,obs,th,xcoord='x',ycoord='y',tcoord='t',zcoord='z',
  l.obs <- check_na(l.obs,'observed')
  
  if(is.null(cl)){
-	set.seed(seed=seed)
-	## Use single core mode
- 	out <- apply(l.query,1,working.ltsk,obs=l.obs,th=th,vth=vth,vlen=vlen,
-		llim=llim,verbose=verbose,Large=Large,future=future)
- 	out <- t(out)
+   tostop <- TRUE
+   cl <- makeCluster(detectCores()-1)
  }
- else if ("cluster" %in% class(cl)){
+ 
+ if ("cluster" %in% class(cl)){
 	## Use multiple core mode
  	clusterSetRNGStream(cl,seed)
 	pwd <- getwd()
@@ -48,6 +46,16 @@ function(query,obs,th,xcoord='x',ycoord='y',tcoord='t',zcoord='z',
 	out <- matrix(unlist(out1),ncol=3,byrow=T)
 	out <- out[order(r.order),]
 	
+	if(tostop){
+	  stopCluster(cl)
+	}
+ }
+ else if(cl==0){
+   set.seed(seed=seed)
+   ## Use single core mode
+   out <- apply(l.query,1,working.ltsk,obs=l.obs,th=th,vth=vth,vlen=vlen,
+                llim=llim,verbose=verbose,Large=Large,future=future)
+   out <- t(out)
  }
  else{
    stop(cl," is not a cluster\n")

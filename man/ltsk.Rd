@@ -54,7 +54,7 @@ a numeric constant, upper limit of neighbor points, beyond which subsampling is 
 logical,	whether including observed points in future relative to query points.
 }
   \item{cl}{
-	a \pkg{parallel} cluster object (default single core)
+	a \pkg{parallel} cluster object (default number of cores in local PC minus one), 0 means single core
 }
 }
 \details{
@@ -97,7 +97,7 @@ data(epa_cl)
 ## apply log transformation
 obs[,'pr_pm25'] = log(obs[,'pr_pm25'])
 ## run kriging
-system.time(out <- ltsk(ex2.query[1:2,],obs,c(0.10,10),zcoord='pr_pm25',verbose=FALSE))
+system.time(out <- ltsk(ex2.query[1:2,],obs,c(0.10,10),zcoord='pr_pm25',verbose=FALSE,cl=0))
 table(out$flag)
 }
 

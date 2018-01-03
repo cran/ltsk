@@ -15,13 +15,10 @@ function(query,obs,th,nbins,xcoord='x',ycoord='y',tcoord='t',zcoord='z',
  bins <- as.matrix(bins)
  
  if(is.null(cl)){
-	set.seed(seed=seed)
-	## Use single core mode
- 	out <- apply(l.query,1,working.cltsk,obs=l.obs,th=th,bins=bins,vth=vth,vlen=vlen,
-		llim=llim,verbose=verbose,Large=Large,future=future)
- 	out <- t(out)
+   tostop <- TRUE
+   cl <- makeCluster(detectCores()-1)
  }
- else if ("cluster" %in% class(cl)){
+ if ("cluster" %in% class(cl)){
 	## Use multiple core mode
  	clusterSetRNGStream(cl,seed)
 	pwd <- getwd()
@@ -54,6 +51,16 @@ function(query,obs,th,nbins,xcoord='x',ycoord='y',tcoord='t',zcoord='z',
 	out <- t(do.call(cbind,out1))
 	out <- out[order(r.order),]
 	
+	if(tostop){
+	  stopCluster(cl)
+	}
+ }
+ else if(cl==0){
+   set.seed(seed=seed)
+   ## Use single core mode
+   out <- apply(l.query,1,working.cltsk,obs=l.obs,th=th,bins=bins,vth=vth,vlen=vlen,
+                llim=llim,verbose=verbose,Large=Large,future=future)
+   out <- t(out)
  }
  else{
    stop(cl," is not a cluster\n")

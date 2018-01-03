@@ -147,7 +147,7 @@ int query_instance(ANNpointArray& dataPts_2, vector<point_q>& list_q, double dis
   return EXIT_SUCCESS;
 }
 
-static const R_CMethodDef cMethods[] = {
+/* static const R_CMethodDef cMethods[] = {
 	{"lk_main", (DL_FUNC) &lk_main, 10},
 		{NULL,NULL,0}
 	};
@@ -156,5 +156,5 @@ void R_init_ltsk(DllInfo *info)
 {
 	R_registerRoutines(info, cMethods, NULL, NULL,NULL);
 }
-
+ */
 

@@ -5,9 +5,12 @@ lk <- function(query,obs,th,xcoord='x',ycoord='y',zcoord='z',vlen=15,cl=NULL)
   seed <- round(runif(1) * 1000000)
   
   if(is.null(cl)){
-    r <- working.lk.par(l.query,l.obs,th,xcoord=xcoord,ycoord=ycoord,zcoord=zcoord,vlen=vlen)
+    tostop <- TRUE
+    cl <- makeCluster(detectCores()-1)
+    #r <- working.lk.par(l.query,l.obs,th,xcoord=xcoord,ycoord=ycoord,zcoord=zcoord,vlen=vlen)
   }
-  else if ("cluster" %in% class(cl)){
+  
+  if ("cluster" %in% class(cl)){
     clusterSetRNGStream(cl,seed)
     pwd <- getwd()
     clusterCall(cl,setwd,dir=pwd)
@@ -27,7 +30,12 @@ lk <- function(query,obs,th,xcoord='x',ycoord='y',zcoord='z',vlen=15,cl=NULL)
     r <- do.call(rbind,out1)
     r.order <- do.call(c,ll.order)
     r <- r[order(r.order),]
-  
+    if(tostop){
+      stopCluster(cl)
+    }
+  }
+  else if(cl==0){
+    r <- working.lk.par(l.query,l.obs,th,xcoord=xcoord,ycoord=ycoord,zcoord=zcoord,vlen=vlen)
   }
   else{
     stop(cl," is not a cluster\n")

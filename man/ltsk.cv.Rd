@@ -57,7 +57,7 @@ x=obs[sample(ii,400),]
 ## apply log transformation
 x[,'pr_pm25'] = log(x[,'pr_pm25'])
 ## run kriging
-out <- ltsk.cv(nfold=10,obs=x,th=c(0.10,10),nbins=c(2,2),zcoord='pr_pm25',verbose=FALSE)
+out <- ltsk.cv(nfold=10,obs=x,th=c(0.10,10),nbins=c(2,2),zcoord='pr_pm25',verbose=FALSE,cl=0)
 }
 
 

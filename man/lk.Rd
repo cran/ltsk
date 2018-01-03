@@ -34,7 +34,7 @@ a character constant, field name for data in \code{obs} }
  number of bins to compute local spatial variogram}
 
  \item{cl}{
-  a cluster object for multi-core computing (default single core)
+  a cluster object for multi-core computing (default number of cores in the PC minue one), 0 means single core
   }
  }
 \details{
@@ -78,7 +78,7 @@ where the variogram model are
 \examples{
 data(epa_cl)
 data(ex)
-out <- lk(ex1.grid,ex1.data,0.5)
+out <- lk(ex1.grid,ex1.data,0.5,cl=0)
 if(require(fields))
 	quilt.plot(ex1.grid$x,ex1.grid$y,out$krig,
 		nrow=10,ncol=10,main='predicted PM[2.5] 01/01/2005')
