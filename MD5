@@ -1,4 +1,4 @@
-ce963648551bd089a95f5c52c1b193a0 *DESCRIPTION
+e2ae41fc2126618dacc35c38f295327e *DESCRIPTION
 4d551a4f0bbb5eff26dc039a8bef2522 *NAMESPACE
 ddb9771c0eccbef958aa698b644d193f *R/cal.gamma.R
 74baf16f214db5ba04d8c4634c74376b *R/check_input.R
@@ -58,7 +58,7 @@ c566f4cdc47c293445f03fd3d254060b *man/ltsk.Rd
 5c771ef56e999b3f9973a25babe5a991 *man/ltsk.cv.Rd
 c48ded0a33a03953a277cfe70e02d7d5 *man/tsbk.Rd
 1cdc841dad3b933665186df1ec76225e *man/tsk.Rd
-88225155dd6c55a6fb134b3d78511d12 *src/ANN.cpp
+e7050253aa3d497f9b6149954a515a17 *src/ANN.cpp
 58d2e87d3f1aeaf6a8d02764d1135660 *src/AvlTree.h
 efd67b25a2b2542b64796fd3f87309b2 *src/ConfigFile.cpp
 a3aa2dbea20e51cf45677697304f2507 *src/ConfigFile.h
@@ -106,17 +106,17 @@ d682bda57b5450eeca0d0afec4454c55 *src/include/pr_queue.h
 4ce87417a2578d9c0af0528aef565401 *src/io.cpp
 3d1e769b9e64262e2f1dd98982bb8c2b *src/io.h
 bb45192b82edafea13b53c34752ed728 *src/kd_dump.cpp
-7295e904ff9393e85abfc2ed0740be74 *src/kd_fix_rad_search.cpp
+9b7529fd5daa2c6ed8124967e185a6f3 *src/kd_fix_rad_search.cpp
 55878b078710ca33e3d14a48dd8d79f4 *src/kd_fix_rad_search.h
-9691a85561597f58ac5e0ce65259554c *src/kd_pr_search.cpp
+abc0d5bc12ed54a3e048f2aa6b3400a1 *src/kd_pr_search.cpp
 27c3774fae6c89d8d21acd869054b577 *src/kd_pr_search.h
-e670c78d8d6f1e00399b098b41f86f2f *src/kd_search.cpp
+9904d05dbc9ab7dab137a3cbbf4c3f0a *src/kd_search.cpp
 9f105012643b3aa1db62d8d18a652e94 *src/kd_search.h
 f4099512d7650c1243fd1d7345b5d8d7 *src/kd_split.cpp
 5706cb95a0d506da9fb8b6d550a21510 *src/kd_split.h
 14a0bd015fafb297e491f8951479cbcc *src/kd_tree.cpp
 5a02fbfbadc9448715ce662fd83ac2a1 *src/kd_tree.h
-2f118ad6f783d9455077ba64d3613de7 *src/kd_util.cpp
+113792096c2bbdf5192511f9cef39e36 *src/kd_util.cpp
 d412681fdefb6fad8061db1c69d88a4e *src/kd_util.h
 9e055d9baebe9794ba7a4e3d1cc5ed64 *src/ltsk.cpp
 16e2e3b774aa8917cfc29466138e067f *src/ltsk.h
