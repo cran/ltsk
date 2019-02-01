@@ -4,7 +4,7 @@ function(query,obs,th,xcoord='x',ycoord='y',tcoord='t',zcoord='z',
 {
  seed <- round(runif(1) * 1000000)
  l.query <- check_input(query,xcoord,ycoord,tcoord,zcoord)
- l.query <- check_na(l.query[,c(xcoord,ycoord,tcoord)],'query')
+ l.query <- check_na(l.query,'query')
  l.obs <- check_input(obs,xcoord,ycoord,tcoord,zcoord)
  l.obs <- check_na(l.obs,'observed')
  
@@ -61,5 +61,10 @@ function(query,obs,th,xcoord='x',ycoord='y',tcoord='t',zcoord='z',
    stop(cl," is not a cluster\n")
  }
  colnames(out) <- c('fit','se','flag')
+ 
+ if(!is.null(attr(l.query,"na.action"))){
+   ## remove missing query locations.
+   query <- query[-attr(l.query,"na.action"),]
+ }
  cbind(query,out)
 }

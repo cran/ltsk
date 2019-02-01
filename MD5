@@ -1,7 +1,7 @@
-e2ae41fc2126618dacc35c38f295327e *DESCRIPTION
+548ea49609ab7df390bf89e1cced2c05 *DESCRIPTION
 4d551a4f0bbb5eff26dc039a8bef2522 *NAMESPACE
 ddb9771c0eccbef958aa698b644d193f *R/cal.gamma.R
-74baf16f214db5ba04d8c4634c74376b *R/check_input.R
+3e80909ee8b9196c1a7ddea3482f55df *R/check_input.R
 d64b78668b0dbb28bf5e6082f59c2af2 *R/cltsk.R
 3b5a133bdd0a7e326955f985190241a5 *R/dadjustsills.R
 b74bd835ff54b3f03c36f50b94167162 *R/dfitvariogram.R
@@ -14,7 +14,7 @@ b37f0dd19b749a2f90c2d41491fd1bca *R/dvariogram.R
 4c62ff6e933e62904f3f9bfad9d82ba8 *R/firstpeak.R
 95f290102f27a279635bfb0825f662d3 *R/lk.R
 993ff6d7215f45eb5567135cb5cc2a59 *R/lnbk.R
-1be73cbeaa5ab3a3fc5b943f12ef8535 *R/ltsk.R
+b6ba11c1be1b9df383ae38b70f53af78 *R/ltsk.R
 3e04b11a75e88f2853278f5bbcc7034f *R/ltsk.cv.R
 8535114ca7e17cc6e964a962305dc573 *R/partUtils.R
 8750509b7546aece1278f1db5e175245 *R/rowSplit_1.R
@@ -51,7 +51,7 @@ cd425a380d90c1bacc3f3637959425ff *data/epa_cl.rda
 7f7e12b6f8ba6f8b498ef98f40f0379c *man/cltsk.Rd
 35045886a2cd708eca80ced517d2cbb0 *man/data.Rd
 42d1205fd1158a7baa126336b0758628 *man/dnb.Rd
-c01431e14f4988a2a303958889986f45 *man/lk.Rd
+9e6b40e307d3c8e2bb5b52f185acff32 *man/lk.Rd
 1e2d77c1a2633a8172dc83929f0103a8 *man/ltsk-internal.Rd
 02da1a0b94e36ab8d61f82941df31838 *man/ltsk-package.Rd
 c566f4cdc47c293445f03fd3d254060b *man/ltsk.Rd
@@ -123,6 +123,6 @@ d412681fdefb6fad8061db1c69d88a4e *src/kd_util.h
 89f17046eb949c82c1e8d9c2f1d6c1f6 *src/ltsk_init.c
 b9784af5812eb1d79c530cf9a78c4bd0 *src/perf.cpp
 95749c41e3b7d03af5a1e14a5e279842 *src/point.h
-d682bda57b5450eeca0d0afec4454c55 *src/pr_queue.h
-0afc4a14961367b001cbc6b7519fb462 *src/pr_queue_k.h
+bddf592cc6650ebaa815338ad8a0fb63 *src/pr_queue.h
+c57d5df3e3b47a47c6776fcf57556919 *src/pr_queue_k.h
 4653f583ea15ea8431c59989c78f2812 *src/range_tree.h
