@@ -6,7 +6,7 @@ function(q0,obs,th,vth,vlen,llim,verbose,Large,future)
 	ii <- dnb(q0,obs,th,future=future)
 	if( length(ii)<=5 ){
 		if(verbose) cat(q0,'k= ',length(ii),'\n')
-		return(c(0,0,4))
+		return(c(0,0,3))
 	}
 	## chkres <- chknb(obs[ii,],llim)
  	## alternative check based upon discussion with Jin Aug 04

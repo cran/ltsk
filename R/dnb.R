@@ -5,11 +5,11 @@ function(query, obs,th,future=TRUE)
   ## obs   : coordinates and time stamps of observed points
   ## th    : space and time thresholds
   ## value : coordinates and time stamps of potential neighbors
-  if (class(query)=="data.frame"){
+  if (is.data.frame(query)){
 	  query <- as.matrix(query)
 	  query <- as.vector(query)
   }
-  if (class(obs)=="data.frame"){
+  if (is.data.frame(obs)){
   	obs <- as.matrix(obs)
   }
   if(future){

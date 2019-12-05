@@ -1,6 +1,6 @@
 ltsk <-
 function(query,obs,th,xcoord='x',ycoord='y',tcoord='t',zcoord='z',
-		vth=NULL,vlen=NULL,llim=c(3,3),verbose=T,Large=2000,future=T,cl=NULL)
+		vth=NULL,vlen=NULL,llim=c(3,3),verbose=T,Large=2000,future=T,cl=0)
 {
  seed <- round(runif(1) * 1000000)
  l.query <- check_input(query,xcoord,ycoord,tcoord,zcoord)

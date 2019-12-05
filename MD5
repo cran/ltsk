@@ -1,11 +1,11 @@
-548ea49609ab7df390bf89e1cced2c05 *DESCRIPTION
+75ba2768930a70deaa0eff991d07cd4c *DESCRIPTION
 4d551a4f0bbb5eff26dc039a8bef2522 *NAMESPACE
 ddb9771c0eccbef958aa698b644d193f *R/cal.gamma.R
 3e80909ee8b9196c1a7ddea3482f55df *R/check_input.R
 d64b78668b0dbb28bf5e6082f59c2af2 *R/cltsk.R
 3b5a133bdd0a7e326955f985190241a5 *R/dadjustsills.R
 b74bd835ff54b3f03c36f50b94167162 *R/dfitvariogram.R
-05ba8fbd551c78f7ed90e4c4b33e2fa4 *R/dnb.R
+fd7aa8fceb92385e652d376d61292c81 *R/dnb.R
 d1cf7f10325c4ff2134d84d61541b73b *R/dsample.pps.R
 1be26025c675840a8c424ba6439ae005 *R/dsample.strata.R
 d19597986ce3917e9f8aadf511062682 *R/dsmooth.variogram.R
@@ -14,7 +14,7 @@ b37f0dd19b749a2f90c2d41491fd1bca *R/dvariogram.R
 4c62ff6e933e62904f3f9bfad9d82ba8 *R/firstpeak.R
 95f290102f27a279635bfb0825f662d3 *R/lk.R
 993ff6d7215f45eb5567135cb5cc2a59 *R/lnbk.R
-b6ba11c1be1b9df383ae38b70f53af78 *R/ltsk.R
+05873c33ea18477d3f6c60d4149a87c8 *R/ltsk.R
 3e04b11a75e88f2853278f5bbcc7034f *R/ltsk.cv.R
 8535114ca7e17cc6e964a962305dc573 *R/partUtils.R
 8750509b7546aece1278f1db5e175245 *R/rowSplit_1.R
@@ -41,7 +41,7 @@ fe8bb12c9a6dc4cdae6bf061f8375628 *R/work.kriging.vec.R
 240b4d63d4cf243eb8c677cb5cbea985 *R/working.compvariogmodels1.R
 83fe06bdb85f8a1b5167a05098934e0e *R/working.fitvariog1.R
 cf40dd41ac956120a2eb3f3dda25b7cf *R/working.lk.par.R
-ef5d3adfea5ab0064d8d42e9389d107a *R/working.ltsk.R
+bfb0a95ff10634f5a95875c884fb5d13 *R/working.ltsk.R
 2fb0b7d790f49a126d92b311d611e07f *R/working.ltsk.par.R
 5d5dad782fbedd0e61f8bba16665c8be *R/working.smoothvariogram.R
 8e4b9377c1ab1b549718fc18515bc739 *R/working.tsk.R
@@ -54,7 +54,7 @@ cd425a380d90c1bacc3f3637959425ff *data/epa_cl.rda
 9e6b40e307d3c8e2bb5b52f185acff32 *man/lk.Rd
 1e2d77c1a2633a8172dc83929f0103a8 *man/ltsk-internal.Rd
 02da1a0b94e36ab8d61f82941df31838 *man/ltsk-package.Rd
-c566f4cdc47c293445f03fd3d254060b *man/ltsk.Rd
+4f84764c6a2aa2e7ef804afd40328369 *man/ltsk.Rd
 5c771ef56e999b3f9973a25babe5a991 *man/ltsk.cv.Rd
 c48ded0a33a03953a277cfe70e02d7d5 *man/tsbk.Rd
 1cdc841dad3b933665186df1ec76225e *man/tsk.Rd
