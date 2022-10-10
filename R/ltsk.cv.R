@@ -18,13 +18,11 @@ ltsk.cv <- function(nfold,obs,th,nbins,part=NULL,zcoord='z',...)
     m.model <- obs[sel, ]
     m.valid <- obs[!sel, ]
     tmp<- try(cltsk(query=m.valid,obs=m.model,th=th,nbins=nbins,zcoord=zcoord,...),silent=T)
-    if(class(tmp)=="try-error"){
-      browser()
-      save(m.valid,m.model,sel,file='dump.rda')
-      stop(attr(tmp,"condition"))
+    if(!(inherits(tmp,"try-error"))){
+      residual[!sel,] <- m.valid[,zcoord]-tmp$krig
     }
     else{
-      residual[!sel,] <- m.valid[,zcoord]-tmp$krig 
+      stop(attr(tmp,"condition"))
     }
   }
  

@@ -1,5 +1,5 @@
-75ba2768930a70deaa0eff991d07cd4c *DESCRIPTION
-4d551a4f0bbb5eff26dc039a8bef2522 *NAMESPACE
+c5267f8544fa29a96e6aea6f4ffb83f1 *DESCRIPTION
+f4d5fafe48515146d5e17a19725cf50a *NAMESPACE
 ddb9771c0eccbef958aa698b644d193f *R/cal.gamma.R
 3e80909ee8b9196c1a7ddea3482f55df *R/check_input.R
 d64b78668b0dbb28bf5e6082f59c2af2 *R/cltsk.R
@@ -13,10 +13,10 @@ d19597986ce3917e9f8aadf511062682 *R/dsmooth.variogram.R
 b37f0dd19b749a2f90c2d41491fd1bca *R/dvariogram.R
 4c62ff6e933e62904f3f9bfad9d82ba8 *R/firstpeak.R
 95f290102f27a279635bfb0825f662d3 *R/lk.R
-993ff6d7215f45eb5567135cb5cc2a59 *R/lnbk.R
-05873c33ea18477d3f6c60d4149a87c8 *R/ltsk.R
-3e04b11a75e88f2853278f5bbcc7034f *R/ltsk.cv.R
-8535114ca7e17cc6e964a962305dc573 *R/partUtils.R
+b6ba11c1be1b9df383ae38b70f53af78 *R/ltsk.R
+38b97efdd69b30d97cc9ef28b651545d *R/ltsk.cv.R
+85f2c487fdf07d960317fd3862b433bc *R/partUtils.R
+98e39a49518dde8072548423ec1185f3 *R/rdist.R
 8750509b7546aece1278f1db5e175245 *R/rowSplit_1.R
 9f602ea5e28e380533df2c859bdb698f *R/tritomat.R
 324acb7ea2486c9276ad3160b166c6ee *R/tsbk.R
@@ -54,7 +54,7 @@ cd425a380d90c1bacc3f3637959425ff *data/epa_cl.rda
 9e6b40e307d3c8e2bb5b52f185acff32 *man/lk.Rd
 1e2d77c1a2633a8172dc83929f0103a8 *man/ltsk-internal.Rd
 02da1a0b94e36ab8d61f82941df31838 *man/ltsk-package.Rd
-4f84764c6a2aa2e7ef804afd40328369 *man/ltsk.Rd
+c566f4cdc47c293445f03fd3d254060b *man/ltsk.Rd
 5c771ef56e999b3f9973a25babe5a991 *man/ltsk.cv.Rd
 c48ded0a33a03953a277cfe70e02d7d5 *man/tsbk.Rd
 1cdc841dad3b933665186df1ec76225e *man/tsk.Rd
@@ -75,6 +75,7 @@ ca7782204f7976fda1c6561d2209e4aa *src/clapack.h
 27eb16e042df2950a8da72e2a9407958 *src/cmp_kriging.h
 0045bee1abc011e26d9c564b118fccd7 *src/dsexceptions.h
 b820670b0847175947527134ac67632e *src/f2c.h
+d9317c79ce19d8aded07ec27a565657b *src/fieldsF77Code.f
 0a2cdcdeda328975a0886e548de0a96d *src/include/ANN.cpp
 d6845a05c5bb3a2f0f21754f0548afe4 *src/include/ANN/ANN.h
 01e516b35b438e720b5dcf2763c4ab06 *src/include/ANN/ANNperf.h
@@ -120,9 +121,10 @@ f4099512d7650c1243fd1d7345b5d8d7 *src/kd_split.cpp
 d412681fdefb6fad8061db1c69d88a4e *src/kd_util.h
 9e055d9baebe9794ba7a4e3d1cc5ed64 *src/ltsk.cpp
 16e2e3b774aa8917cfc29466138e067f *src/ltsk.h
-89f17046eb949c82c1e8d9c2f1d6c1f6 *src/ltsk_init.c
+cbb9a22822347ca6e265bcb1e2915f73 *src/ltsk_init.c
 b9784af5812eb1d79c530cf9a78c4bd0 *src/perf.cpp
 95749c41e3b7d03af5a1e14a5e279842 *src/point.h
 bddf592cc6650ebaa815338ad8a0fb63 *src/pr_queue.h
 c57d5df3e3b47a47c6776fcf57556919 *src/pr_queue_k.h
 4653f583ea15ea8431c59989c78f2812 *src/range_tree.h
+cc0ae12f403309c82568f081fc11f705 *src/rdistC.c

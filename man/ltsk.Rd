@@ -9,7 +9,7 @@ Function implements ordinary time and space kriging for large data sets, with au
 \usage{
 ltsk(query, obs, th, xcoord = "x", ycoord = "y", tcoord = "t", 
 	zcoord = "z", vth = NULL, vlen = NULL, llim = c(3, 3), 
-	verbose = T, Large = 2000, future=T, cl = 0)
+	verbose = T, Large = 2000, future=T, cl = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -54,7 +54,7 @@ a numeric constant, upper limit of neighbor points, beyond which subsampling is 
 logical,	whether including observed points in future relative to query points.
 }
   \item{cl}{
-	a \pkg{parallel} cluster object, NULL means total number of cores, (default 0 means single core)
+	a \pkg{parallel} cluster object (default number of cores in local PC minus one), 0 means single core
 }
 }
 \details{

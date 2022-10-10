@@ -90,7 +90,7 @@ partUtil <- function(obs,query,ncl,th,xcoord='x',ycoord='y',tcoord='t',fac=1.0)
   
   tolist <- function(x)
   {
-    if(class(x)=="list"){
+    if(inherits(x,"list")){
       r <- x
     }
     else if(is.null(dim(x))){
@@ -183,7 +183,7 @@ partSpUtil <- function(obs,query,ncl,th,xcoord='x',ycoord='y',fac=1.2){
 
   tolist <- function(x)
   {
-    if(class(x)=="list"){
+    if(inherits(x,"list")){
       r <- x
     }
     else if(is.null(dim(x))){
