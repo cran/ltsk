@@ -12,15 +12,6 @@ Product-sum model is implemented and automatically estimated using the data poin
 A unique advantage of ltsk is that it addresses non-stationarity,
  which is difficult to handle in large spatiotemporal dataset. 
 }
-\details{
-\tabular{ll}{
-Package: \tab ltsk\cr
-Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2014-12-31\cr
-License: \tab GPL2.0\cr
-}
-}
 \author{
 Naresh Kumar (NKumar@med.miami.edu)
 Dong Liang (dliang@umces.edu)

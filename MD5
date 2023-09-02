@@ -1,4 +1,4 @@
-c5267f8544fa29a96e6aea6f4ffb83f1 *DESCRIPTION
+bdc33f9fc8e06486e500ed10cb91af9b *DESCRIPTION
 f4d5fafe48515146d5e17a19725cf50a *NAMESPACE
 ddb9771c0eccbef958aa698b644d193f *R/cal.gamma.R
 3e80909ee8b9196c1a7ddea3482f55df *R/check_input.R
@@ -53,7 +53,7 @@ cd425a380d90c1bacc3f3637959425ff *data/epa_cl.rda
 42d1205fd1158a7baa126336b0758628 *man/dnb.Rd
 9e6b40e307d3c8e2bb5b52f185acff32 *man/lk.Rd
 1e2d77c1a2633a8172dc83929f0103a8 *man/ltsk-internal.Rd
-02da1a0b94e36ab8d61f82941df31838 *man/ltsk-package.Rd
+85f3bc852da17408a24c83f02471e807 *man/ltsk-package.Rd
 c566f4cdc47c293445f03fd3d254060b *man/ltsk.Rd
 5c771ef56e999b3f9973a25babe5a991 *man/ltsk.cv.Rd
 c48ded0a33a03953a277cfe70e02d7d5 *man/tsbk.Rd
