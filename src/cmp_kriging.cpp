@@ -2688,7 +2688,7 @@ void Kriging_By_Space(	// calculate kriging by space
 		  kvq	= NotInverseMatrix;
 		  kriging	= -99999;
 		  sigma = -99999;
-		  Rprintf("cmp_kriging.cpp:2637 INFO=%d not invertible matrix, returning\n",INFO);
+		  Rprintf("cmp_kriging.cpp:2637 INFO=%ld not invertible matrix, returning\n",INFO);
 		}
 
 	      Hs = parameters.Hs;

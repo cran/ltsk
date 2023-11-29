@@ -1,4 +1,4 @@
-bdc33f9fc8e06486e500ed10cb91af9b *DESCRIPTION
+7c05b953c77a18aad351b4526c577308 *DESCRIPTION
 f4d5fafe48515146d5e17a19725cf50a *NAMESPACE
 ddb9771c0eccbef958aa698b644d193f *R/cal.gamma.R
 3e80909ee8b9196c1a7ddea3482f55df *R/check_input.R
@@ -71,7 +71,7 @@ b8d59ae85cf1b9591e279a05d752dc1a *src/bd_tree.cpp
 ac10533c29eed05007e76c1bdb9901fd *src/blaswrap.h
 17c58f7ebc260012b27ef3950c41c0c5 *src/brute.cpp
 ca7782204f7976fda1c6561d2209e4aa *src/clapack.h
-82a8592edb7fbabf32d5a4968cc25747 *src/cmp_kriging.cpp
+358016859ac7a849ef33d632cfdd3f45 *src/cmp_kriging.cpp
 27eb16e042df2950a8da72e2a9407958 *src/cmp_kriging.h
 0045bee1abc011e26d9c564b118fccd7 *src/dsexceptions.h
 b820670b0847175947527134ac67632e *src/f2c.h
