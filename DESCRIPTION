@@ -1,15 +1,15 @@
 Package: ltsk
 Type: Package
 Title: Local Time Space Kriging
-Version: 1.1.1
-Date: 2023-11-28
-Author: Naresh Kumar, Dong Liang, Jin Chen, Jun Chen
+Version: 1.1.2
+Date: 2024-06-22
+Author: Naresh Kumar, Dong Liang
 Maintainer: Dong Liang <dliang@umces.edu>
 Description: Implements local spatial and local spatiotemporal Kriging based on local spatial and local spatiotemporal variograms, respectively. The method is documented in Kumar et al (2013) <https://www.nature.com/articles/jes201352)>.
 License: GPL-2
 Depends: parallel,R (>= 2.10)
 Imports:
-Packaged: 2023-11-29 00:26:32 UTC; dliang
+Packaged: 2024-06-22 22:24:26 UTC; dliang
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2023-11-29 01:10:02 UTC
+Date/Publication: 2024-06-22 23:50:05 UTC
